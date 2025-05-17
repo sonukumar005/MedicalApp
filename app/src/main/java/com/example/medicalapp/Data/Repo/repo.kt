@@ -3,8 +3,8 @@ package com.example.medicalapp.Data.Repo
 import android.util.Log
 import com.example.medicalapp.Data.apiProvider
 import com.example.medicalapp.Data.responce.GetAllUserResponce
+import com.example.medicalapp.Data.responce.GetSpecificUserResponce
 import com.example.medicalapp.Data.responce.LoginUserResponce
-import com.example.medicalapp.Data.responce.getSpecificUserResponce
 
 import com.example.medicalapp.Data.responce.signUpResponce
 import com.example.medicalapp.State
@@ -64,11 +64,13 @@ class repo {
     }
 
     suspend fun getSpecificUser(
-        userId: String
-    ): Flow<State<Response<getSpecificUserResponce>>> = flow {
+        userID: String
+    ): Flow<State<Response<GetSpecificUserResponce>>> = flow {
         emit(State.Loading)
         try {
-            val response = apiService.getSpecificUser(userId=userId)
+            val response = apiService.getSpecificUser(
+                user_id = userID
+            )
 
             emit(State.Success(response))
 

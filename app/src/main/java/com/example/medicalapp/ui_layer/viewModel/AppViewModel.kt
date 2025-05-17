@@ -1,14 +1,15 @@
 package com.example.medicalapp.ui_layer.viewModel
 
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.example.medicalapp.Data.Repo.repo
 import com.example.medicalapp.Data.responce.GetAllUserResponce
+import com.example.medicalapp.Data.responce.GetSpecificUserResponce
 import com.example.medicalapp.Data.responce.LoginUserResponce
-import com.example.medicalapp.Data.responce.getSpecificUserResponce
 
 import com.example.medicalapp.Data.responce.signUpResponce
 import com.example.medicalapp.State
@@ -33,9 +34,9 @@ class AppViewModel @Inject constructor(
     private val _loginState: MutableStateFlow<loginState> = MutableStateFlow(loginState())
     val loginState = _loginState.asStateFlow()
 
-    private val _getSpecificUserSate: MutableStateFlow<getSpecificUserState> =
+    private val _getSpecificUserState: MutableStateFlow<getSpecificUserState> =
         MutableStateFlow(getSpecificUserState())
-    val getSpecificUserState = _getSpecificUserSate.asStateFlow()
+    val getSpecificUserState = _getSpecificUserState.asStateFlow()
 
 
     fun signUpUser(
@@ -61,7 +62,10 @@ class AppViewModel @Inject constructor(
                     }
 
                     is State.Success -> {
-                        val userID = it.data?.body()?.message
+                        val userID = it.data?.body()?.user_id
+
+                        Log.d("TAG", "signUpUser1: ${it.data?.body()?.user_id}")
+                        Log.d("TAG", "signUpUser: $userID")
                         userPreferencesManager.saveUserIdSignUp(userID.toString())
 
 
@@ -106,31 +110,34 @@ class AppViewModel @Inject constructor(
         }
     }
 
+
     fun getSpecificUser(
-        userId: String
+        userID: String
     ) {
         viewModelScope.launch {
             repo.getSpecificUser(
-                userId = userId
-            ).collect { it ->
-                when (it) {
-                    is com.example.medicalapp.State.Loading -> {
-                        _getSpecificUserSate.value = getSpecificUserState(Loading = true)
+                userID = userID
+            ).collect { state ->
+                when (state) {
+                    is State.Loading -> {
+                        _getSpecificUserState.value = getSpecificUserState(Loading = true)
                     }
 
-                    is com.example.medicalapp.State.Success -> {
-                        _getSpecificUserSate.value =
-                            getSpecificUserState(data = it.data, Loading = false)
+                    is State.Success -> {
+                        Log.d("TAG", "getSpecificUser: ${state.data?.body()}")
+                        _getSpecificUserState.value =
+                            getSpecificUserState(Data = state.data, Loading = false)
                     }
 
-                    is com.example.medicalapp.State.Error -> {
-                        _getSpecificUserSate.value =
-                            getSpecificUserState(error = it.message, Loading = false)
+                    is State.Error -> {
+                        _getSpecificUserState.value =
+                            getSpecificUserState(error = state.message, Loading = false)
                     }
                 }
             }
         }
     }
+
 
 }
 
@@ -149,6 +156,6 @@ data class loginState(
 
 data class getSpecificUserState(
     val Loading: Boolean = false,
-    val data: Response<getSpecificUserResponce>? = null,
+    val Data: Response<GetSpecificUserResponce>? = null,
     val error: String? = null
 )

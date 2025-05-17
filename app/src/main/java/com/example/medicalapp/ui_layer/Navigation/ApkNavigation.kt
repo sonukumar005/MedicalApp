@@ -41,6 +41,8 @@ import com.example.medicalapp.ui_layer.screen.userVerificationProcessScreen
 import com.example.medicalapp.ui_layer.screen.userVerifiedScreen
 import com.example.medicalapp.ui_layer.viewModel.AppViewModel
 import com.example.medicalapp.user_praf.UserPreferencesManager
+import kotlinx.coroutines.delay
+import kotlin.concurrent.thread
 
 
 //import com.example.medicalapp.user_praf.UserPreferencesManager
@@ -50,20 +52,16 @@ fun ApkNavigation(
    viewModel: AppViewModel = hiltViewModel(),
    userPreferencesManager: UserPreferencesManager
 ) {
-    val navController = rememberNavController()
     val userIDLogin by userPreferencesManager.userIdLogin.collectAsState(initial = null)
     val userIDSignUp by userPreferencesManager.userIdSignUp.collectAsState(initial = null)
+    val navController = rememberNavController()
 
-    val getSpecificUserState = viewModel.getSpecificUserState.collectAsState()
-    val signupState = viewModel.signUpState.collectAsState()
-    val userID = signupState.value.Data?.body()?.message
-    LaunchedEffect(Unit) {
-        if (userID != null) {
-            viewModel.getSpecificUser(userID)
-        }
-    }
 
-    val isApproved = getSpecificUserState.value.data?.body()?.isApproved
+
+
+
+
+
 
 
 
@@ -130,13 +128,21 @@ fun ApkNavigation(
 
         ) {
         composable<spalashScreen> {
+
             LaunchedEffect(Unit) {
-                if (userIDSignUp != null) {
-                    navController.navigate(userVerificationProcessUI)
-                } else if (userIDLogin != null) {
-                    navController.navigate(HomeUI)
-                } else {
-                    navController.navigate(LoginUI)
+                    delay(1000)
+
+                when {
+                    !userIDSignUp.isNullOrEmpty() -> {
+                        navController.navigate(userVerificationProcessUI)
+                    }
+                    !userIDLogin.isNullOrEmpty() -> {
+                        navController.navigate(HomeUI)
+                    }
+                    else -> {
+                        navController.navigate(LoginUI)
+
+                    }
                 }
 
 
@@ -153,7 +159,9 @@ fun ApkNavigation(
             HomeScreen(navController = navController)
         }
         composable<userVerificationProcessUI> {
-            userVerificationProcessScreen(navController = navController)
+            userVerificationProcessScreen(navController = navController,
+                userPreferencesManager = userPreferencesManager
+            )
 
         }
         composable<userVerifiedUI> {

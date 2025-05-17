@@ -1,8 +1,8 @@
 package com.example.medicalapp.Data
 
 import com.example.medicalapp.Data.responce.GetAllUserResponce
+import com.example.medicalapp.Data.responce.GetSpecificUserResponce
 import com.example.medicalapp.Data.responce.LoginUserResponce
-import com.example.medicalapp.Data.responce.getSpecificUserResponce
 import com.example.medicalapp.Data.responce.signUpResponce
 
 import retrofit2.Response
@@ -32,10 +32,10 @@ interface apiService{
         @Field("password") password: String
     ): Response<LoginUserResponce>
 
-    @FormUrlEncoded
-    @POST("getSpecificUser")
-    suspend fun getSpecificUser(
-        @Field("userID") userId: String
-    ): Response<getSpecificUserResponce>
+@FormUrlEncoded
+@POST("getSpecificUser")
+suspend fun getSpecificUser(
+    @Field("userID") user_id: String
+): Response<GetSpecificUserResponce>
 
 }
