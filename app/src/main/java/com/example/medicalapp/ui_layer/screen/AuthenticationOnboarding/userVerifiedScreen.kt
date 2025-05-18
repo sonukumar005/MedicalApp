@@ -1,10 +1,8 @@
-package com.example.medicalapp.ui_layer.screen
+package com.example.medicalapp.ui_layer.screen.AuthenticationOnboarding
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.medicalapp.ui_layer.Navigation.LoginUI
 

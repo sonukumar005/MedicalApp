@@ -1,48 +1,24 @@
 package com.example.medicalapp.ui_layer.Navigation
 
-import android.net.wifi.hotspot2.pps.HomeSp
-import android.util.Log
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.Navigation
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 
 
 import androidx.navigation.compose.rememberNavController
-import com.example.medicalapp.ui_layer.Navigation.userVerificationProcessUI
-import com.example.medicalapp.ui_layer.screen.HomeScreen
-import com.example.medicalapp.ui_layer.screen.SignInScreenUI
-import com.example.medicalapp.ui_layer.screen.SignUpScreenUi
-import com.example.medicalapp.ui_layer.screen.userRejectionScreen
-import com.example.medicalapp.ui_layer.screen.userVerificationProcessScreen
-import com.example.medicalapp.ui_layer.screen.userVerifiedScreen
+import com.example.medicalapp.ui_layer.screen.CustomerFacingScreens.HomeScreen
+import com.example.medicalapp.ui_layer.screen.AuthenticationOnboarding.SignInScreenUI
+import com.example.medicalapp.ui_layer.screen.AuthenticationOnboarding.SignUpScreenUi
+import com.example.medicalapp.ui_layer.screen.AuthenticationOnboarding.userRejectionScreen
+import com.example.medicalapp.ui_layer.screen.AuthenticationOnboarding.userVerificationProcessScreen
+import com.example.medicalapp.ui_layer.screen.AuthenticationOnboarding.userVerifiedScreen
 import com.example.medicalapp.ui_layer.viewModel.AppViewModel
 import com.example.medicalapp.user_praf.UserPreferencesManager
 import kotlinx.coroutines.delay
-import kotlin.concurrent.thread
 
 
 //import com.example.medicalapp.user_praf.UserPreferencesManager

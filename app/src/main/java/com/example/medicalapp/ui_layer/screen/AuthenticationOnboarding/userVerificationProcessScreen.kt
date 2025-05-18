@@ -1,8 +1,7 @@
-package com.example.medicalapp.ui_layer.screen
+package com.example.medicalapp.ui_layer.screen.AuthenticationOnboarding
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
@@ -12,18 +11,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.medicalapp.ui_layer.Navigation.LoginUI
 import com.example.medicalapp.ui_layer.viewModel.AppViewModel
 import com.example.medicalapp.user_praf.UserPreferencesManager
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun userVerificationProcessScreen(
     navController: NavController,
@@ -63,6 +66,21 @@ val isApproved = getSpecificUserState.value.Data?.body()?.get(0)?.isApproved
                 "Verification Successful",
                 style = MaterialTheme.typography.headlineLarge
             )
+            Button(onClick = {
+                navController.navigate(LoginUI) {
+                    popUpTo("userVerificationProcessScreen") {
+                        inclusive = true
+                    }
+                }
+                GlobalScope.launch {
+                    userPreferencesManager.clearUserIDSignUp()
+                }
+            }) {
+                Text(
+                    text = "login",
+                    style = MaterialTheme.typography.headlineLarge
+                )
+            }
         } else {
             Text(
                 text = "Verification in Process",

@@ -1,4 +1,4 @@
-package com.example.medicalapp.ui_layer.screen
+package com.example.medicalapp.ui_layer.screen.AuthenticationOnboarding
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -12,6 +12,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -23,10 +25,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 
 import com.example.medicalapp.R
+import com.example.medicalapp.ui_layer.Navigation.HomeUI
 import com.example.medicalapp.ui_layer.Navigation.SignUpUI
 import com.example.medicalapp.ui_layer.common.MulticolorText
 import com.example.medicalapp.ui_layer.viewModel.AppViewModel
-import retrofit2.Response
 
 
 @Composable
@@ -37,6 +39,16 @@ fun SignInScreenUI(
     val context = LocalContext.current
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
+    val loginState = viewModel.loginState.collectAsState()
+    val loginData = loginState.value.Data
+    LaunchedEffect(loginData) {
+        if (loginData != null) {
+            if (loginData.isSuccessful) {
+                Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
+                navController.navigate(HomeUI)
+            }
+        }
+    }
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -63,13 +75,10 @@ fun SignInScreenUI(
             )
             Spacer(modifier = Modifier.size(20.dp))
             Button(onClick = {
-
-                    viewModel.loginUser(
-                        email = email.value,
-                        password = password.value
-                    )
-
-
+                viewModel.loginUser(
+                    email = email.value,
+                    password = password.value
+                )
             }) {
                 Text("Login User")
             }

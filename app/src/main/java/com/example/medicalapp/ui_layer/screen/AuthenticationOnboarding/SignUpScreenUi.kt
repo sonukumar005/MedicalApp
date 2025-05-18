@@ -1,4 +1,4 @@
-package com.example.medicalapp.ui_layer.screen
+package com.example.medicalapp.ui_layer.screen.AuthenticationOnboarding
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -18,12 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.medicalapp.R
-import com.example.medicalapp.ui_layer.Navigation.LoginUI
 import com.example.medicalapp.ui_layer.Navigation.userVerificationProcessUI
 
 import com.example.medicalapp.ui_layer.common.MulticolorText

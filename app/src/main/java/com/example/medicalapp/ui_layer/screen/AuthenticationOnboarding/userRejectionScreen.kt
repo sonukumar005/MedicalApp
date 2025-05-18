@@ -1,7 +1,6 @@
-package com.example.medicalapp.ui_layer.screen
+package com.example.medicalapp.ui_layer.screen.AuthenticationOnboarding
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
 @Composable
